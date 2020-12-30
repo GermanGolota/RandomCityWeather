@@ -25,6 +25,8 @@ namespace RandomCityWeatherAPI
 
             services.AddTelegramBot(token, webhookurl);
 
+            services.AddTelegramCommands();
+
             services.AddDbContext<CityContext>(
                 options =>
                 {

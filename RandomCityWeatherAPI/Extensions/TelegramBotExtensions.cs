@@ -14,20 +14,25 @@ namespace RandomCityWeatherAPI.Extensions
         public static IServiceCollection AddTelegramBot(this IServiceCollection services, string token, string webhookurl)
         {
 
-            services.AddSingleton<ITelegramBotClientFactory, TelegramBotClientFactory>();
-            services.AddSingleton<ITelegramBotClient>((x) =>
+            services.AddScoped<ITelegramBotClientFactory, TelegramBotClientFactory>();
+            services.AddScoped<ITelegramBotClient>((x) =>
             {
                 var factory = x.GetService<ITelegramBotClientFactory>();
                 //BAD
                 return factory.CreateClient(token, webhookurl).GetAwaiter().GetResult();
             });
 
-            services.AddSingleton<ICommandsGetter, CommandsGetter>();
+            services.AddScoped<ICommandsGetter, CommandsGetter>();
 
-            services.AddSingleton<ICommandManagerFactory, CommandManagerFactory>();
+            services.AddScoped<ICommandManagerFactory, CommandManagerFactory>();
             //BAD
-            services.AddSingleton<ICommandManager>(x => x.GetService<ICommandManagerFactory>().CreateCommandManager().GetAwaiter().GetResult());
+            services.AddScoped<ICommandManager>(x => x.GetService<ICommandManagerFactory>().CreateCommandManager().GetAwaiter().GetResult());
 
+            return services;
+        }
+        public static IServiceCollection AddTelegramCommands(this IServiceCollection services)
+        {
+            services.AddScoped<WeatherCommand>();
             return services;
         }
     }
