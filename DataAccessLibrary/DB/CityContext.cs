@@ -13,5 +13,10 @@ namespace DataAccessLibrary.DB
 
         }
         public DbSet<City> Cities { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<City>().Property(e => e.Longitude).HasPrecision(12, 8);
+            modelBuilder.Entity<City>().Property(e => e.Latitude).HasPrecision(12, 8);
+        }
     }
 }

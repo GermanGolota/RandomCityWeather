@@ -10,5 +10,7 @@ namespace DataAccessLibrary.DB.Entity
         [Required]
         [MaxLength(100)]
         public string Country { get; set; }
+        public decimal Longitude { get; set; }
+        public decimal Latitude { get; set; }
     }
 }
