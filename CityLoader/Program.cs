@@ -51,7 +51,9 @@ namespace CityLoader
                 {
                     Country = cityModel.Country,
                     Name = cityModel.Name,
-                    Id = cityModel.Id.ToString()
+                    Id = cityModel.Id.ToString(),
+                    Latitude = cityModel.Coord.lat,
+                    Longitude = cityModel.Coord.lon
                 };
                 dbcities.Add(city);
             }
@@ -59,7 +61,6 @@ namespace CityLoader
             await context.AddRangeAsync(dbcities);
 
             context.SaveChanges();
-
         }
     }
 }
