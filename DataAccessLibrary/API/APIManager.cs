@@ -22,11 +22,11 @@ namespace DataAccessLibrary.Data.API
             this._api = apimanager;
             this.apiKey = ApiKey;
         }
-        public async Task<WeatherModel> GetWeatherModelByIdAsync(string cityId)
+        public async Task<WeatherResponceModel> GetWeatherModelByIdAsync(string cityId)
         {
             string url = $"http://api.openweathermap.org/data/2.5/weather?id={cityId}&appid={apiKey}&units=metric";
 
-            WeatherModel weather = await _api.GenericAPICall<WeatherModel>(url);
+            WeatherResponceModel weather = await _api.GenericAPICall<WeatherResponceModel>(url);
 
             return weather;
         }

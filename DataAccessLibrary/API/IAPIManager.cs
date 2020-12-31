@@ -5,6 +5,6 @@ namespace DataAccessLibrary.Data.API
 {
     public interface IAPIManager
     {
-        Task<WeatherModel> GetWeatherModelByIdAsync(string cityId);
+        Task<WeatherResponceModel> GetWeatherModelByIdAsync(string cityId);
     }
 }

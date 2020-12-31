@@ -19,7 +19,7 @@ namespace RandomCityWeatherAPI.Controllers
             this._manager = manager;
         }
         [HttpGet("{cityId}")]
-        public async Task<ActionResult<WeatherModel>> GetWeatherByCityId(string cityId)
+        public async Task<ActionResult<WeatherResponceModel>> GetWeatherByCityId(string cityId)
         {
             var model = await _manager.GetWeatherModelByIdAsync(cityId);
             return Ok(model);

@@ -1,7 +1,12 @@
-﻿namespace DataAccessLibrary.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace DataAccessLibrary.Models
 {
     public class WeatherModel
     {
-        public string Name { get; set; }
+        public double Temp { get; set; }
+        public double Feels_Like { get; set; }
     }
 }
