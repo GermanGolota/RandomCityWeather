@@ -1,5 +1,6 @@
 ﻿using DataAccessLibrary.DB.Entity;
 using DataAccessLibrary.Extensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,13 @@ namespace DataAccessLibrary.DB.Repositories
         }
         public List<City> GetRandomCities(int count)
         {
-            List<City> cities = _context.Cities.OrderByRandom().Take(count).ToList();
+            List<City> cities = _context.Cities.AsNoTracking().OrderByRandom().Take(count).ToList();
             return cities;
         }
 
         public City GetRandomCity()
         {
-            City city = _context.Cities.OrderByRandom().Take(1).First();
+            City city = _context.Cities.AsNoTracking().OrderByRandom().Take(1).First();
             return city;
         }
     }
