@@ -29,16 +29,7 @@ namespace RandomCityWeatherAPI
 
             services.AddTelegramCommands();
 
-            services.AddDbContext<CityContext>(
-                options =>
-                {
-                    options.UseSqlServer(Configuration.GetConnectionString("Cities"),
-                        b =>
-                        {
-                            b.MigrationsAssembly(nameof(RandomCityWeatherAPI));
-                        });
-                });
-
+            services.AddDBDataAccess(Configuration);
 
             services.AddWeatherAPI();
 
