@@ -20,6 +20,8 @@ namespace RandomCityWeatherAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
+
             string token = Configuration.GetValue<string>("Token");
             string webhookurl = Configuration.GetValue<string>("Webhook");
 

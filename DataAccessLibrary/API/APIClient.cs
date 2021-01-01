@@ -11,10 +11,10 @@ namespace DataAccessLibrary.Data.API
 
     public class APIClient
     {
-        private HttpClient client;
-        public APIClient()
+        private HttpClient _client;
+        public APIClient(HttpClient client)
         {
-            client = new HttpClient();
+            this._client = client;
             client.DefaultRequestHeaders.Accept.Clear();
             var header = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(header);
@@ -23,7 +23,7 @@ namespace DataAccessLibrary.Data.API
         {
             get
             {
-                return this.client;
+                return this._client;
             }
         }
     }
