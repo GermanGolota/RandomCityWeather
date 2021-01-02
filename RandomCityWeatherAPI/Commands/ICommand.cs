@@ -10,6 +10,6 @@ namespace RandomCityWeatherAPI.Commands
     public interface ICommand
     {
         public string Name { get; }
-        public Task Execute(Message message, ITelegramBotClient client);
+        public Task Execute(Message message, ITelegramBotClient client, string[] parameters);
     }
 }
