@@ -23,35 +23,92 @@ namespace RandomCityWeatherAPI.Commands
 
             if (command is not null)
             {
-                await command.Execute(message, _client);
+                string[] parameters = GetCommandParameters(message);
+                await command.Execute(message, _client, parameters);
             }
             else
             {
                 //log
             }
         }
-
-        private ICommand GetRequiredCommand(Message message)
+        private string[] GetCommandParameters(Message message)
         {
-            string messageCommand = message.Text;
+            string commandMessage = message.Text;
 
-            int endIndex = messageCommand.IndexOf(' ');
+            int endIndex = commandMessage.IndexOf(' ');
 
             if (endIndex != -1)
             {
-                messageCommand = messageCommand.Substring(0, endIndex);
+                string parameters = commandMessage.Substring(endIndex + 1);
+                return parameters.Split(' ');
+            }
+            else
+            {
+                return new string[0];
             }
 
-            messageCommand = messageCommand.Replace("/", "");
-
-            foreach (var command in _commands)
+        }
+        private ICommand GetRequiredCommand(Message message)
+        {
+            string commandMessage = message.Text;
+            if (commandMessage.Contains("/"))
             {
-                if (command.Name.ToLower().Equals(messageCommand))
+                var standardCommand = GetStandardCommand(commandMessage);
+                return standardCommand;
+            }
+            else
+            {
+                var nonStandardCommand = GetNonStandardCommand(commandMessage);
+                return nonStandardCommand;
+            }
+        }
+        private ICommand GetStandardCommand(string commandMessage)
+        {
+            int endIndex = commandMessage.IndexOf(' ');
+
+
+            string firstWord = GetFirstWordOfCommand(commandMessage);
+
+            firstWord = firstWord.Replace("/", "");
+
+            var standardCommands = _commands.Where(x => x is IStandardCommand);
+
+            var command = GetCommandWithMatchingFirstWord(standardCommands, firstWord);
+
+            return command;
+        }
+        
+        private ICommand GetNonStandardCommand(string commandMessage)
+        {
+            var nonStandardCommand = _commands.Where(x => x is INonStandardCommand);
+
+            string firstWord = GetFirstWordOfCommand(commandMessage);
+
+            var command = GetCommandWithMatchingFirstWord(nonStandardCommand, firstWord);
+
+            return command;
+        }
+        private ICommand GetCommandWithMatchingFirstWord(IEnumerable<ICommand> commands, string firstWord)
+        {
+            foreach (var command in commands)
+            {
+                if (command.Name.Equals(firstWord))
                 {
                     return command;
                 }
             }
             return null;
+        }
+        private string GetFirstWordOfCommand(string command)
+        {
+            int endIndex = command.IndexOf(' ');
+
+            if (endIndex != -1)
+            {
+                command = command.Substring(0, endIndex);
+            }
+
+            return command;
         }
     }
 }

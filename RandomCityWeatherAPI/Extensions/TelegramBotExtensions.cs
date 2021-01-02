@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RandomCityWeatherAPI.Client;
 using RandomCityWeatherAPI.Commands;
+using RandomCityWeatherAPI.Commands.NonStandardCommands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,7 @@ namespace RandomCityWeatherAPI.Extensions
         public static IServiceCollection AddTelegramCommands(this IServiceCollection services)
         {
             services.AddScoped<WeatherCommand>();
+            services.AddScoped<WeatherScheduleSetupCommand>();
             return services;
         }
     }
