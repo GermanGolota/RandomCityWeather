@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DataAccessLibrary.DB.Repositories
 {
     public interface ICityRepo
     {
-        City GetRandomCity();
-        List<City> GetRandomCities(int count);
+        Task<City> GetRandomCity();
+        Task<List<City>> GetRandomCities(int count);
     }
 }

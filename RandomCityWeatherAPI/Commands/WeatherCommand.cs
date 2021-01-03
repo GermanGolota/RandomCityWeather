@@ -27,7 +27,7 @@ namespace RandomCityWeatherAPI.Commands
         {
             var chatId = message.Chat.ID;
             var messageId = message.MessageID;
-            City city = _repo.GetRandomCity();
+            City city = await _repo.GetRandomCity();
             WeatherResponceModel APIReply = await _manager.GetWeatherModelByIdAsync(city.Id);
             string reply = CreateMessageFromWeather(APIReply);
             await client.SendTextMessageAsync(chatId,reply, replyToMessageId:messageId);
