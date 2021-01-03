@@ -1,4 +1,5 @@
 ﻿using DataAccessLibrary.Data.API;
+using DataAccessLibrary.DB.Entities;
 using DataAccessLibrary.DB.Entity;
 using DataAccessLibrary.DB.Repositories;
 using DataAccessLibrary.Models;
@@ -15,11 +16,13 @@ namespace RandomCityWeatherAPI.Commands
     {
         private readonly IAPIManager _manager;
         private readonly ICityRepo _repo;
+        private readonly IStatisticsRepo _stats;
 
-        public WeatherCommand(IAPIManager manager, ICityRepo repo)
+        public WeatherCommand(IAPIManager manager, ICityRepo repo, IStatisticsRepo stats)
         {
             this._manager = manager;
             this._repo = repo;
+            this._stats = stats;
         }
         public string Name { get; } = "Weather";
 
@@ -29,6 +32,9 @@ namespace RandomCityWeatherAPI.Commands
             var messageId = message.MessageID;
             City city = await _repo.GetRandomCity();
             WeatherResponceModel APIReply = await _manager.GetWeatherModelByIdAsync(city.Id);
+
+            await _stats.AddStatistics(city, chatId.ToString());
+
             string reply = CreateMessageFromWeather(APIReply);
             await client.SendTextMessageAsync(chatId,reply, replyToMessageId:messageId);
         }
