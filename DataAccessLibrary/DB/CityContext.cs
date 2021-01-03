@@ -1,4 +1,5 @@
-﻿using DataAccessLibrary.DB.Entity;
+﻿using DataAccessLibrary.DB.Entities;
+using DataAccessLibrary.DB.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace DataAccessLibrary.DB
 
         }
         public DbSet<City> Cities { get; set; }
+        public DbSet<CityStatistics> Statistics { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<City>().Property(e => e.Longitude).HasPrecision(12, 8);
