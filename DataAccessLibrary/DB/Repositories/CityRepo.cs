@@ -1,4 +1,5 @@
-﻿using DataAccessLibrary.DB.Entity;
+﻿using DataAccessLibrary.DB.Entities;
+using DataAccessLibrary.DB.Entity;
 using DataAccessLibrary.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,7 +20,7 @@ namespace DataAccessLibrary.DB.Repositories
         }
         public async Task<List<City>> GetRandomCities(int count)
         {
-            List<City> cities = _context.Cities.AsNoTracking().OrderByRandom().Take(count).ToList();
+            List<City> cities = await _context.Cities.AsNoTracking().OrderByRandom().Take(count).ToListAsync();
             return cities;
         }
 
@@ -27,6 +28,39 @@ namespace DataAccessLibrary.DB.Repositories
         {
             City city = await _context.Cities.AsNoTracking().OrderByRandom().Take(1).FirstAsync();
             return city;
+        }
+        public async Task AddStatistics(string cityId, string chatId)
+        {
+            var statistics = new CityStatistics
+            {
+                ChatId = chatId,
+                CityId = cityId,
+                Id = new Guid().ToString()
+            };
+
+            var city = await _context.Cities.Include(x=>x.Statistics).FirstAsync(x => x.Id == cityId);
+
+            city.Statistics = city.Statistics.Concat(new[] { statistics });
+
+            await _context.Statistics.AddAsync(statistics);
+        }
+
+        public async Task<Dictionary<string, int>> GetStatisticsFromChatId(string chatId)
+        {
+            List<string> cities = await _context.Statistics.Where(x => x.ChatId == chatId).Select(x => x.CityId).ToListAsync();
+            var output = new Dictionary<string, int>();
+            foreach (string city in cities)
+            {
+                if (output.ContainsKey(city))
+                {
+                    output[city]++;
+                }
+                else
+                {
+                    output.Add(city, 1);
+                }
+            }
+            return output;
         }
     }
 }

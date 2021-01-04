@@ -10,5 +10,7 @@ namespace DataAccessLibrary.DB.Repositories
     {
         Task<City> GetRandomCity();
         Task<List<City>> GetRandomCities(int count);
+        Task AddStatistics(string cityId, string chatId);
+        Task<Dictionary<string, int>> GetStatisticsFromChatId(string chatId);
     }
 }

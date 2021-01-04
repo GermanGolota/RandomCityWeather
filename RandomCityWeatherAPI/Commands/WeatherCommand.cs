@@ -16,13 +16,11 @@ namespace RandomCityWeatherAPI.Commands
     {
         private readonly IAPIManager _manager;
         private readonly ICityRepo _repo;
-        private readonly IStatisticsRepo _stats;
 
-        public WeatherCommand(IAPIManager manager, ICityRepo repo, IStatisticsRepo stats)
+        public WeatherCommand(IAPIManager manager, ICityRepo repo)
         {
             this._manager = manager;
             this._repo = repo;
-            this._stats = stats;
         }
         public string Name { get; } = "Weather";
 
@@ -33,7 +31,7 @@ namespace RandomCityWeatherAPI.Commands
             City city = await _repo.GetRandomCity();
             WeatherResponceModel APIReply = await _manager.GetWeatherModelByIdAsync(city.Id);
 
-            await _stats.AddStatistics(city, chatId.ToString());
+            await _repo.AddStatistics(city.Id, chatId.ToString());
 
             string reply = CreateMessageFromWeather(APIReply);
             await client.SendTextMessageAsync(chatId,reply, replyToMessageId:messageId);
