@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DataAccessLibrary.DB.Entities;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataAccessLibrary.DB.Entity
 {
@@ -12,5 +15,6 @@ namespace DataAccessLibrary.DB.Entity
         public string Country { get; set; }
         public decimal Longitude { get; set; }
         public decimal Latitude { get; set; }
+        public IEnumerable<CityStatistics> Statistics { get; set; }
     }
 }

@@ -9,6 +9,5 @@ namespace DataAccessLibrary.DB.Entities
     {
         public string CityId { get; set; }
         public string ChatId { get; set; }
-        public City City{ get; set; }
     }
 }
