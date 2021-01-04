@@ -43,11 +43,14 @@ namespace DataAccessLibrary.DB.Repositories
             city.Statistics = city.Statistics.Concat(new[] { statistics });
 
             await _context.Statistics.AddAsync(statistics);
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task<Dictionary<string, int>> GetStatisticsFromChatId(string chatId)
         {
-            List<string> cities = await _context.Statistics.Where(x => x.ChatId == chatId).Select(x => x.CityId).ToListAsync();
+            List<string> cities = await _context.Statistics.AsNoTracking().Where(x => x.ChatId == chatId)
+                .Select(x => x.CityId).ToListAsync();
             var output = new Dictionary<string, int>();
             foreach (string city in cities)
             {
