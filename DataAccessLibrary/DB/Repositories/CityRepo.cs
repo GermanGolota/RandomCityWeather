@@ -40,8 +40,6 @@ namespace DataAccessLibrary.DB.Repositories
 
             var city = await _context.Cities.Include(x=>x.Statistics).FirstAsync(x => x.Id == cityId);
 
-            city.Statistics = city.Statistics.Concat(new[] { statistics });
-
             await _context.Statistics.AddAsync(statistics);
 
             await _context.SaveChangesAsync();
